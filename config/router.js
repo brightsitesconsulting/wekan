@@ -17,8 +17,8 @@ FlowRouter.route('/', {
     Utils.manageMatomo();
 
     BlazeLayout.render('defaultLayout', {
-      headerBar: 'boardListHeaderBar',
-      content: 'boardList',
+      headerBar: 'flowzBoardListHeaderBar',
+      content: 'flowzBoardList',
     });
   },
 });

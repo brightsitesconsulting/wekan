@@ -26,6 +26,12 @@ Template.header.helpers({
   },
 });
 
+Template.header.helpers({
+  hideLogo() {
+    return true;
+  }
+});
+
 Template.header.events({
   'click .js-create-board': Popup.open('headerBarCreateBoard'),
   'click .js-close-announcement'() {

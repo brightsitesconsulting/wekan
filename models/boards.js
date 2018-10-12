@@ -853,7 +853,7 @@ if (Meteor.isServer) {
           },
         ],
         permission: req.body.permission || 'private',
-        color: req.body.color || 'belize',
+        color: req.body.color || 'midnight',
       });
       const swimlaneId = Swimlanes.insert({
         title: TAPi18n.__('default'),
