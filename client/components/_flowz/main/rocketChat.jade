@@ -1,3 +1,5 @@
 template(name="rocketChat")
     if rocketChatToken
-        iframe#rocketChat(src="{{getRocketChatHostname}}/channel/general/?layout=embedded")
+        div#rc-container
+            button.js-toggle-chat Close
+            iframe#rocketChat(src="{{getRocketChatHostname}}/channel/general/?layout=embedded")

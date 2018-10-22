@@ -1,7 +1,26 @@
 BlazeComponent.extendComponent({
+  events() {
+    return [{
+      'click .js-toggle-chat'(evt) {
+
+        const txt = $(evt.target).text();
+        if (txt === 'Close') {
+          $(evt.target).text('Open');
+          // $(evt.target).next().show('hide');
+        } else {
+          $(evt.target).text('Close');
+          // $(evt.target).next().hide();
+        }
+        $(evt.target).next().slideToggle();
+      }
+    }];
+  }
 }).register('rocketChat');
 
 Template.rocketChat.helpers({
+  rocketChatAction() {
+    return "xx";
+  },
   getRocketChatHostname() {
     if (/localhost/.test(window.location.hostname)) {
       return 'http://localhost:3000';
