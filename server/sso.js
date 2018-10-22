@@ -1,6 +1,6 @@
 import { HTTP } from 'meteor/http';
 import * as Rx from "rxjs";
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 const userPassword = new Rx.Subject();
 const userLogin = new Rx.Subject();
@@ -17,22 +17,30 @@ if (/localhost/.test(process.env.ROOT_URL)) {
 
 class SSO {
   constructor() {
-    this.authToken = '';
-    this.userId = '';
-    this.authenticateRocketChatAdmin();
+    this.authTokenAdmin = '';
+    this.userIdAdmin = '';
+
+    this.cache = {};
+    this.authenticateRocketChatAdmin().catch(ex => console.error(ex));
   }
 
   authenticateRocketChatAdmin() {
-    HTTP.call('POST', rocketChatApi + 'login', {
-      data: {
-        username: adminUser,
-        password: adminPass
-      }
-    }, (error, result) => {
-      if (!error) {
-        this.userId = result.data.data.userId;
-        this.authToken = result.data.data.authToken;
-      }
+    return new Promise((resolve, reject) => {
+      console.log('start authenticateRocketChatAdmin');
+      HTTP.call('POST', rocketChatApi + 'login', {
+        data: {
+          username: adminUser,
+          password: adminPass
+        }
+      }, (error, result) => {
+        if (!error) {
+          this.userIdAdmin = result.data.data.userId;
+          this.authTokenAdmin = result.data.data.authToken;
+          resolve();
+        } else {
+          reject(error)
+        }
+      });
     });
   }
 
@@ -50,11 +58,15 @@ class SSO {
 
   checkUser(username) {
     return new Promise((resolve, reject) => {
+      console.log('Start check user', {
+        'X-Auth-Token': this.authTokenAdmin,
+        'X-User-Id': this.userIdAdmin
+      });
       HTTP.call('GET', rocketChatApi + 'users.info', {
         params: { username: username },
         headers: {
-          'X-Auth-Token': this.authToken,
-          'X-User-Id': this.userId
+          'X-Auth-Token': this.authTokenAdmin,
+          'X-User-Id': this.userIdAdmin
         }
       }, (error, result) => {
         const content = JSON.parse(result.content);
@@ -62,7 +74,7 @@ class SSO {
           console.log('Check user is ok');
           resolve('ok');
         } else {
-          console.error('Check user failed');
+          console.error('Check user failed', error);
           reject(error);
         }
       });
@@ -71,10 +83,16 @@ class SSO {
 
   logout() {
     return new Promise((resolve, reject) => {
-      HTTP.call('GET', rocketChatApi + 'logout', {
+
+      const currentUser = this.cache[Meteor.userId()];
+      if (!currentUser) {
+        return Promise.resolve(null);
+      }
+      console.log('Start logout', currentUser);
+      HTTP.call('POST', rocketChatApi + 'logout', {
         headers: {
-          'X-Auth-Token': this.authToken,
-          'X-User-Id': this.userId
+          'X-Auth-Token': currentUser.authToken,
+          'X-User-Id': currentUser.userId
         }
       }, (error, result) => {
         if (!error) {
@@ -119,8 +137,12 @@ class SSO {
         }
       }, (error, result) => {
         if (!error) {
+          this.cache[Meteor.userId()] = {
+            userId: result.data.data.userId,
+            authToken: result.data.data.authToken
+          };
           Users.update(Meteor.userId(), {$set: {'profile.rocketChatToken': result.data.data.authToken}});
-          console.log('Authenticate user ok');
+          console.log('Authenticate user ok', this.userId);
           resolve();
         } else {
           console.error('Authenticate user failed');
@@ -134,6 +156,7 @@ class SSO {
 Meteor.methods({
   passRef(password) {
     check(password, String);
+    console.log('onPass');
     userPassword.next({
       'userId': Meteor.userId(),
       'password': password
@@ -145,7 +168,8 @@ Meteor.startup(() => {
   const sso = new SSO();
   
   Accounts.onLogin(function (data) {
-    // if (Meteor.user().profile.rocketChatToken) {
+    console.log('onLogin');
+    // if (!Meteor.user().profile.rocketChatToken) {
       userLogin.next({
         userId: data.user._id,
         username: data.user.username
@@ -154,11 +178,13 @@ Meteor.startup(() => {
   });
 
   Accounts.onLogout(function () {
-    sso.logout();
+    sso.logout().catch(ex => console.error(ex));
   });
 
-  Rx.combineLatest(userLogin, userPassword)
-    .pipe(switchMap(([u, p]) => sso.login(u.username, p.password)))
+  userPassword
+    .pipe(
+      withLatestFrom(userLogin),
+      switchMap(([p, u]) => sso.login(u.username, p.password)))
     .subscribe(() => {}, (e) => console.error(e));
 
   // Picker.route('/api/rocket/login', function(params, req, res, next) {
