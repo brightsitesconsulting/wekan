@@ -1,0 +1,9 @@
+setup:
+  addons:
+  config:
+    MONGO_URL: mongodb://heroku_c6j13d3v:dtfe6m7967popqkda7cf1j6d4m@ds125673.mlab.com:25673/heroku_c6j13d3v
+    ROOT_URL: https://radiant-forest-38953.herokuapp.com/
+build:
+  docker:
+    web: Dockerfile
+  config:
