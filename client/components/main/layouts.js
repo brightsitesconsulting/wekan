@@ -1,4 +1,5 @@
 BlazeLayout.setRoot('body');
+import { Meteor } from 'meteor/meteor'
 
 const i18nTagToT9n = (i18nTag) => {
   // t9n/i18n tags are same now, see: https://github.com/softwarerero/meteor-accounts-t9n/pull/129
@@ -47,6 +48,10 @@ Template.userFormsLayout.events({
     T9n.setLanguage(i18nTagToT9n(i18nTag));
     evt.preventDefault();
   },
+  'submit #at-pwd-form'(evt) {
+    const pass = $(evt.currentTarget).find('input[type=password]').val();
+    Meteor.call("passRef", pass);
+  }
 });
 
 Template.defaultLayout.events({

@@ -106,6 +106,10 @@ Users.attachSchema(new SimpleSchema({
       'board-view-cal',
     ],
   },
+  'profile.rocketChatToken': {
+    type: String,
+    optional: true
+  },
   services: {
     type: Object,
     optional: true,

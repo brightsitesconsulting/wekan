@@ -14,8 +14,6 @@ head
 
 template(name="userFormsLayout")
   section.auth-layout
-    h1.at-form-landing-logo
-      img(src="{{pathFor '/wekan-logo.png'}}" alt="Wekan")
     section.auth-dialog
       +Template.dynamic(template=content)
       div.at-form-lang
@@ -38,6 +36,7 @@ template(name="defaultLayout")
           i.fa.fa-times-thin
         +Template.dynamic(template=Modal.getHeaderName)
         +Template.dynamic(template=Modal.getTemplateName)
+  +rocketChat
 
 template(name="notFound")
   +message(label='page-not-found')
