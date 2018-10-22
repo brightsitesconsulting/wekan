@@ -2,6 +2,12 @@ BlazeComponent.extendComponent({
 }).register('rocketChat');
 
 Template.rocketChat.helpers({
+  getRocketChatHostname() {
+    if (/localhost/.test(window.location.hostname)) {
+      return 'http://localhost:3000';
+    }
+    return 'https://flowz-chat.herokuapp.com';
+  },
   rocketChatToken() {
     const user = Meteor.user();
     setTimeout(() => {
