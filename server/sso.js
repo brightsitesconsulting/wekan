@@ -142,7 +142,7 @@ class SSO {
             authToken: result.data.data.authToken
           };
           Users.update(Meteor.userId(), {$set: {'profile.rocketChatToken': result.data.data.authToken}});
-          console.log('Authenticate user ok', this.userId);
+          console.log('Authenticate user ok', this.cache[Meteor.userId()]);
           resolve();
         } else {
           console.error('Authenticate user failed');
