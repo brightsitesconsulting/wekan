@@ -1,4 +1,4 @@
-let api_base = 'https://flowz-cms.herokuapp.com';
+let api_base = 'http://flowz-cms.herokuapp.com/';
 let grant_type = 'client_credentials';
 let client_id = '3d44ec87-1865-4d9e-b8c4-7111367c2376';
 let client_secret = 'INES12northcliffe';
