@@ -32,9 +32,14 @@ Meteor.startup(() => {
 
       if (!title) return;
 
+      console.log(0, cmsId);
       if (cmsId) {
-        if (cmsId && status !== -1) {
-          cms.update(cmsId,  {title, status})
+        if (cmsId) {
+          const payload = {title};
+          if (status !== -1) {
+            payload['status'] = status;
+          }
+          cms.update(cmsId,  payload)
             .then(res => console.log('Successfully update the article. ' + res.data.id))
             .catch(ex => console.error(ex))
         }
