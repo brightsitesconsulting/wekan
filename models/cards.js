@@ -161,6 +161,12 @@ Cards.attachSchema(new SimpleSchema({
     optional: true,
     defaultValue: '',
   },
+  cmsId: {
+    type: String,
+    optional: true,
+    defaultValue: '',
+    defaultValue: '',
+  }
 }));
 
 Cards.allow({
@@ -1004,9 +1010,9 @@ function cardRemover(userId, doc) {
   Checklists.remove({
     cardId: doc._id,
   });
-  Subtasks.remove({
-    cardId: doc._id,
-  });
+  // Subtasks.remove({
+  //   cardId: doc._id,
+  // });
   CardComments.remove({
     cardId: doc._id,
   });

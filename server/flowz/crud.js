@@ -38,9 +38,23 @@ const defaultPayloadArticle = {
   }
 };
 
+
+const defaultEditPayloadArticle = {
+  "data": {
+    "type": "node--simple_article",
+    "id": "",
+    "attributes": {
+    }
+  }
+};
+
 export class CRUD {
   constructor(connection) {
     this.connection = connection;
+  }
+
+  async auth() {
+    await this.connection.getToken();
   }
 
   async create(payload) {
@@ -56,15 +70,40 @@ export class CRUD {
         'X-CSRF-Token': this.connection.sessionToken
       },
       data: JSON.stringify(defaultPayloadArticle)
-    });
+    }).then(({data}) => data);
   }
 
   read() {
   }
 
-  update() {
+  async update(cmsId, payload) {
+    await this.connection.getToken();
+    defaultEditPayloadArticle.data.id = cmsId;
+    defaultEditPayloadArticle.data.attributes = payload;
+    return axios({
+      method: 'PATCH',
+      url: `${API_BASE}api/node/${NODE_TYPE}/${cmsId}`,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.api+json',
+        'Authorization': 'Bearer ' + this.connection.accessToken,
+        'X-CSRF-Token': this.connection.sessionToken
+      },
+      data: JSON.stringify(defaultEditPayloadArticle)
+    }).then(({data}) => data);
   }
 
-  delete() {
+  async delete(cmsId) {
+    await this.connection.getToken();
+    return axios({
+      method: 'DELETE',
+      url: `${API_BASE}api/node/${NODE_TYPE}/${cmsId}`,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.api+json',
+        'Authorization': 'Bearer ' + this.connection.accessToken,
+        'X-CSRF-Token': this.connection.sessionToken
+      }
+    }).then(({data}) => data);
   }
 }
