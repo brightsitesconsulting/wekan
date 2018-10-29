@@ -27,14 +27,22 @@ Meteor.startup(() => {
   var handle = cursor.observe({
     changed(doc) {
       const {cmsId, title, listId} = doc;
-      if (title && cmsId) {
-        const list = Lists.findOne(listId);
-        const status = listStatus(list.title);
+      const list = Lists.findOne(listId);
+      const status = listStatus(list.title);
+
+      if (!title) return;
+
+      if (cmsId) {
         if (cmsId && status !== -1) {
           cms.update(cmsId,  {title, status})
             .then(res => console.log('Successfully update the article. ' + res.data.id))
             .catch(ex => console.error(ex))
         }
+      } else if (status !== -1) {
+        cms.create({title, status})
+          .then(({data}) => saveCMSID(doc._id, data.id))
+          .then(res => console.log('Article successfully created.' + res.data.id))
+          .catch(ex => console.error(ex))
       }
     },
     removed({cmsId}) {
@@ -44,14 +52,14 @@ Meteor.startup(() => {
           .catch(ex => console.error(ex))
       }
     },
-    added(obj) {
+    added(doc) {
       if (!handle) return;
-      const {title} = Lists.findOne(obj.listId);
+      const {title} = Lists.findOne(doc.listId);
       if (title) {
         const label = title.toLowerCase();
         if (/^draft/.test(label)) {
-          cms.create({title: obj.title})
-            .then(({data}) => saveCMSID(obj._id, data.id))
+          cms.create({title: doc.title})
+            .then(({data}) => saveCMSID(doc._id, data.id))
             .then((x) => console.log('Article successfully created.', x))
             .catch(ex => console.error(ex))
         }
