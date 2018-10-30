@@ -53,7 +53,10 @@ class SSO {
             username, pass: password, email: user.emails[0].address, name: user.username
           })
           .then(() => this.authenticateUser(username, password))
-      );
+      ).then(undefined, (ex) => {
+        console.error(ex);
+        return Promise.resolve(null); //keep it alive
+      });
   }
 
   checkUser(username) {
