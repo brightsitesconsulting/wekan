@@ -32,7 +32,6 @@ Meteor.startup(() => {
 
       if (!title) return;
 
-      console.log(0, cmsId);
       if (cmsId) {
         if (cmsId) {
           const payload = {title};
@@ -53,7 +52,7 @@ Meteor.startup(() => {
     removed({cmsId}) {
       if (cmsId) {
         cms.delete(cmsId)
-          .then(res => console.log('Successfully removing the article.'))
+          .then(_ => console.log('Successfully removing the article.'))
           .catch(ex => console.error(ex))
       }
     },
