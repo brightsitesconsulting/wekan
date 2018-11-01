@@ -17,7 +17,7 @@
   transition: all 0.3s ease-in
 
   &:focus-within
-    background: rgba(0, 0, 0, 0.5)
+    background: rgba(0, 0, 0, 0.6)
     background-size: cover
 
   h1
@@ -34,6 +34,9 @@
     margin-top: 50px
     margin-bottom: 20px
 
+  .at-input
+    margin-bottom: 20px
+
   .auth-dialog
     width: 275px
     padding: 25px
@@ -44,20 +47,37 @@
         color: darken(#27AE60, 40%)
 
       label
-        margin-bottom: 3px
         font-size: 12px
+        margin-bottom: 10px
+    
 
       input
-        width: 100%
-        background: rgba(255, 255, 255, 0.2)
+        
+        background-color: rgba(54, 130, 138, 0.3)
         height: 60px
         border: none
-        color: #fff
+        color:#fff
+        width: 100%
+
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus,
+        &:-webkit-autofill:active
+          color:#fff
+          -webkit-text-fill-color:#fff
+          -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out"
+          -webkit-transition-delay: 9999s
+
+        &:-webkit-input-placeholder,
+        &:-moz-placeholder,
+        &:placeholder
+          color:#fff
+
 
         &:focus
           background: rgba(255, 255, 255, 0)
           border: none
-          border-bottom: 1px solid #0099FF
+          border-bottom: 2px solid #0099FF
           box-shadow: none
 
       button
