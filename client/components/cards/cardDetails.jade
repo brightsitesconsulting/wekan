@@ -100,6 +100,8 @@ template(name="cardDetails")
 
     //- XXX We should use "editable" to avoid repetiting ourselves
     if canModifyCard
+      div
+        button#openCms Edit article
       h3.card-details-item-title {{_ 'description'}}
       +inlinedCardDescription(classNames="card-description js-card-description")
         +editor(autofocus=true)
@@ -195,6 +197,8 @@ template(name="cardDetails")
           +activities(card=this mode="linkedboard")
         else
           +activities(card=this mode="card")
+    if this.cmsId
+      +cmsEdit this
 
 template(name="editCardTitleForm")
   textarea.js-edit-card-title(rows='1' autofocus)

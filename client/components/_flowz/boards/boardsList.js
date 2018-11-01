@@ -14,10 +14,6 @@ BlazeComponent.extendComponent({
     });
   },
 
-  welcome() {
-    return !Session.get('temporaryPersistWelcome');
-  },
-
   isStarred() {
     const user = Meteor.user();
     return user && user.hasStarred(this.currentData()._id);
