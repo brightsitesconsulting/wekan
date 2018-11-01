@@ -13,16 +13,12 @@ head
   link(rel="manifest" href="/wekan-manifest.json")
 
 template(name="userFormsLayout")
-  section.auth-layout
-    section.auth-dialog
-      +Template.dynamic(template=content)
-      div.at-form-lang
-        select.select-lang.js-userform-set-language
-          each languages
-            if isCurrentLanguage
-              option(value="{{tag}}" selected="selected") {{name}}
-            else
-              option(value="{{tag}}") {{name}}
+  section.auth-bg
+    section.auth-layout
+      h1 planchatdo
+      p Build, manage, and distribute content in a way <br/>that makes sense
+      section.auth-dialog
+        +Template.dynamic(template=content)
 
 template(name="defaultLayout")
   +header

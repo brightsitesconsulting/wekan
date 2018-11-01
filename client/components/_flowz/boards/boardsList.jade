@@ -1,27 +1,27 @@
 template(name="flowzBoardList")
-  .wrapper
-    ul.board-list.clearfix
-      li.js-add-board
-        a.board-list-item.label {{_ 'add-board'}}
-      each boards
-        li(class="{{#if isStarred}}starred{{/if}}" class=colorClass)
-          if isInvited
-            .board-list-item
-              span.details
-                span.board-list-item-name= title
-                i.fa.js-star-board(
-                  class="fa-star{{#if isStarred}} is-star-active{{else}}-o{{/if}}"
-                  title="{{_ 'star-board-title'}}")
-                p.board-list-item-desc {{_ 'just-invited'}}
-                button.js-accept-invite.primary {{_ 'accept'}}
-                button.js-decline-invite {{_ 'decline'}}
-          else
-            a.js-open-board.board-list-item(href="{{pathFor 'board' id=_id slug=slug}}")
-              span.details
-                span.board-list-item-name= title
-                i.fa.js-star-board(
-                  class="fa-star{{#if isStarred}} is-star-active{{else}}-o{{/if}}"
-                  title="{{_ 'star-board-title'}}")
+    .wrapper
+      ul.board-list.clearfix
+        li.js-add-board
+          a.board-list-item.label {{_ 'add-board'}}
+        each boards
+          li(class="{{#if isStarred}}starred{{/if}}" class=colorClass)
+            if isInvited
+              .board-list-item
+                span.details
+                  span.board-list-item-name= title
+                  i.fa.js-star-board(
+                    class="fa-star{{#if isStarred}} is-star-active{{else}}-o{{/if}}"
+                    title="{{_ 'star-board-title'}}")
+                  p.board-list-item-desc {{_ 'just-invited'}}
+                  button.js-accept-invite.primary {{_ 'accept'}}
+                  button.js-decline-invite {{_ 'decline'}}
+            else
+              a.js-open-board.board-list-item(href="{{pathFor 'board' id=_id slug=slug}}")
+                span.details
+                  span.board-list-item-name= title
+                  i.fa.js-star-board(
+                    class="fa-star{{#if isStarred}} is-star-active{{else}}-o{{/if}}"
+                    title="{{_ 'star-board-title'}}")
 
                 if hasSpentTimeCards
                   i.fa.js-has-spenttime-cards(

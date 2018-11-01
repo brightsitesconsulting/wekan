@@ -1,22 +1,45 @@
 @import 'nib'
 
+.auth-bg
+  background: url('/mvp-login-bg.png')
+  width: 100%
+  height: 100%
+  background-size: cover
+  background-repeat: no-repeat
+
 .auth-layout
+  display: flex
+  justify-content: center
+  align-items: center
+  height: 100%
+  flex-direction: column
+  color: #fff
+  transition: all 0.3s ease-in
+
+  &:focus-within
+    background: rgba(0, 0, 0, 0.6)
+    background-size: cover
+
+  h1
+    font-size: 38px
+
+  p
+    text-align: center
+    font-size: 18px
+    line-height: 1.4
+
   .at-form-landing-logo
     width: 249px
     margin: auto
     margin-top: 50px
     margin-bottom: 20px
 
+  .at-input
+    margin-bottom: 20px
+
   .auth-dialog
     width: 275px
     padding: 25px
-    margin: auto
-    margin-bottom: 20px
-    background: #fff
-    border-radius: 3px
-    border: 1px solid #dbdbdb
-    border-bottom-color: #c2c2c2
-    box-shadow: 0 1px 6px rgba(0, 0, 0, .3)
 
     .at-form
 
@@ -24,22 +47,47 @@
         color: darken(#27AE60, 40%)
 
       label
-        margin-bottom: 3px
+        font-size: 12px
+        margin-bottom: 10px
+    
 
       input
+        
+        background-color: rgba(54, 130, 138, 0.3)
+        height: 60px
+        border: none
+        color:#fff
         width: 100%
+
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus,
+        &:-webkit-autofill:active
+          color:#fff
+          -webkit-text-fill-color:#fff
+          -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out"
+          -webkit-transition-delay: 9999s
+
+        &:-webkit-input-placeholder,
+        &:-moz-placeholder,
+        &:placeholder
+          color:#fff
+
+
+        &:focus
+          background: rgba(255, 255, 255, 0)
+          border: none
+          border-bottom: 2px solid #0099FF
+          box-shadow: none
 
       button
         width: 100%
-        background: #216694
+        background: #0099FF
+        height: 60px
         color: #fff
 
       .at-title
-        background: #F7F7F7
-        margin: -25px
-        padding: 15px 25px 5px
         margin-bottom: 20px
-        border-bottom: 1px solid #dcdcdc
         color: darken(white, 70%)
         font-weight: bold
 

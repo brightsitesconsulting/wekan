@@ -22,7 +22,10 @@ AccountsTemplates.configure({
   confirmPassword: false,
   enablePasswordChange: true,
   sendVerificationEmail: true,
-  showForgotPasswordLink: true,
+  showForgotPasswordLink: false,
+  hideSignUpLink: true,
+  showPlaceholders: false,
+  focusFirstInput: false,
   onLogoutHook() {
     const homePage = 'home';
     if (FlowRouter.getRouteName() === homePage) {
@@ -33,15 +36,23 @@ AccountsTemplates.configure({
   },
 });
 
-['signIn', 'signUp', 'resetPwd', 'forgotPwd', 'enrollAccount'].forEach(
+['signIn',
+  'signUp',
+  'resetPwd',
+  // 'forgotPwd',
+  'enrollAccount'].forEach(
   (routeName) => AccountsTemplates.configureRoute(routeName));
 
-// We display the form to change the password in a popup window that already
 // have a title, so we unset the title automatically displayed by useraccounts.
 AccountsTemplates.configure({
   texts: {
     title: {
       changePwd: '',
+      forgotPwd: '',
+      signIn: '',
+    },
+    button: {
+      signIn: 'Jump in',
     },
   },
 });
