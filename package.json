@@ -23,10 +23,13 @@
     "eslint": "^4.19.1"
   },
   "dependencies": {
+    "@material/select": "^0.41.0",
+    "@material/textfield": "^0.41.0",
     "axios": "^0.18.0",
     "babel-runtime": "^6.26.0",
     "bson-ext": "^2.0.0",
     "es6-promise": "^4.2.4",
+    "materialize-css": "^1.0.0",
     "meteor-node-stubs": "^0.4.1",
     "os": "^0.1.1",
     "page": "^1.8.6",

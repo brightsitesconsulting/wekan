@@ -86,3 +86,7 @@ momentjs:moment@2.22.2
 browser-policy-framing
 mquandalle:moment
 msavin:usercache
+coagmano:stylus
+materialize:materialize
+useraccounts:materialize
+aldeed:template-extension

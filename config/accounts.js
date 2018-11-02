@@ -1,20 +1,3 @@
-const passwordField = AccountsTemplates.removeField('password');
-const emailField = AccountsTemplates.removeField('email');
-
-AccountsTemplates.addFields([{
-  _id: 'username',
-  type: 'text',
-  displayName: 'username',
-  required: true,
-  minLength: 2,
-}, emailField, passwordField, {
-  _id: 'invitationcode',
-  type: 'text',
-  displayName: 'Invitation Code',
-  required: false,
-  minLength: 6,
-  template: 'invitationCode',
-}]);
 
 AccountsTemplates.configure({
   defaultLayout: 'userFormsLayout',
@@ -24,8 +7,21 @@ AccountsTemplates.configure({
   sendVerificationEmail: true,
   showForgotPasswordLink: false,
   hideSignUpLink: true,
+  showLabels: true,
+  negativeValidation: true,
+  negativeFeedback: true,
   showPlaceholders: false,
   focusFirstInput: false,
+  texts: {
+    title: {
+      changePwd: '',
+      forgotPwd: '',
+      signIn: '',
+    },
+    button: {
+      signIn: 'Jump in',
+    },
+  },
   onLogoutHook() {
     const homePage = 'home';
     if (FlowRouter.getRouteName() === homePage) {
@@ -42,20 +38,6 @@ AccountsTemplates.configure({
   // 'forgotPwd',
   'enrollAccount'].forEach(
   (routeName) => AccountsTemplates.configureRoute(routeName));
-
-// have a title, so we unset the title automatically displayed by useraccounts.
-AccountsTemplates.configure({
-  texts: {
-    title: {
-      changePwd: '',
-      forgotPwd: '',
-      signIn: '',
-    },
-    button: {
-      signIn: 'Jump in',
-    },
-  },
-});
 
 AccountsTemplates.configureRoute('changePwd', {
   redirect() {
