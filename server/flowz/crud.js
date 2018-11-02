@@ -63,17 +63,18 @@ export class CRUD {
     return axios({
       method: 'POST',
       url: API_BASE + 'api/node/' + NODE_TYPE,
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.api+json',
-        'Authorization': 'Bearer ' + this.connection.accessToken,
-        'X-CSRF-Token': this.connection.sessionToken
-      },
+      headers: this._getHeaders(),
       data: JSON.stringify(defaultPayloadArticle)
     }).then(({data}) => data);
   }
 
-  read() {
+  async read(cmsId) {
+    await this.connection.getToken();
+    return axios({
+      method: 'GET',
+      url: `${API_BASE}api/node/${NODE_TYPE}/${cmsId}`,
+      headers: this._getHeaders(),
+    }).then(({data}) => data);
   }
 
   async update(cmsId, payload) {
@@ -83,12 +84,7 @@ export class CRUD {
     return axios({
       method: 'PATCH',
       url: `${API_BASE}api/node/${NODE_TYPE}/${cmsId}`,
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.api+json',
-        'Authorization': 'Bearer ' + this.connection.accessToken,
-        'X-CSRF-Token': this.connection.sessionToken
-      },
+      headers: this._getHeaders(),
       data: JSON.stringify(defaultEditPayloadArticle)
     }).then(({data}) => data);
   }
@@ -98,12 +94,16 @@ export class CRUD {
     return axios({
       method: 'DELETE',
       url: `${API_BASE}api/node/${NODE_TYPE}/${cmsId}`,
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/vnd.api+json',
-        'Authorization': 'Bearer ' + this.connection.accessToken,
-        'X-CSRF-Token': this.connection.sessionToken
-      }
+      headers: this._getHeaders()
     }).then(({data}) => data);
+  }
+
+  _getHeaders() {
+    return {
+      'Content-Type': 'application/json',
+      'Accept': 'application/vnd.api+json',
+      'Authorization': 'Bearer ' + this.connection.accessToken,
+      'X-CSRF-Token': this.connection.sessionToken
+    }
   }
 }

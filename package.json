@@ -25,6 +25,7 @@
   "dependencies": {
     "@material/select": "^0.41.0",
     "@material/textfield": "^0.41.0",
+    "@ckeditor/ckeditor5-build-inline": "^11.1.1",
     "axios": "^0.18.0",
     "babel-runtime": "^6.26.0",
     "bson-ext": "^2.0.0",

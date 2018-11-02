@@ -165,7 +165,6 @@ Cards.attachSchema(new SimpleSchema({
     type: String,
     optional: true,
     defaultValue: '',
-    defaultValue: '',
   }
 }));
 
