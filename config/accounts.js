@@ -1,3 +1,23 @@
+AccountsTemplates.removeField('email');
+AccountsTemplates.removeField('password');
+
+AccountsTemplates.addFields([{
+  _id: 'email',
+  type: 'email',
+  required: true,
+  displayName: 'Work email',
+  re: /.+@(.+){2,}\.(.+){2,}/,
+  errStr: 'Invalid email',
+},
+{
+  _id: 'password',
+  type: 'password',
+  required: true,
+  minLength: 6,
+  re: /(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/,
+  errStr: 'At least 1 digit, 1 lower-case and 1 upper-case',
+},
+]);
 
 AccountsTemplates.configure({
   defaultLayout: 'userFormsLayout',
@@ -17,6 +37,11 @@ AccountsTemplates.configure({
       changePwd: '',
       forgotPwd: '',
       signIn: '',
+    },
+    errors: {
+      loginForbidden: 'error.accounts.Please try again',
+      pwdMismatch: 'error.pwdsDontMatch',
+      validationErrors: 'Validation Errors',
     },
     button: {
       signIn: 'Jump in',
