@@ -12,6 +12,9 @@ BlazeComponent.extendComponent({
       });
     }
   },
+  getSubheadline() {
+    return ''
+  },
   getBody() {
     return this.body.get();
   },

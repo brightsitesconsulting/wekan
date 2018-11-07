@@ -1,5 +1,7 @@
 template(name="cmsEdit")
-  h1 Edit cms here
   form.cms-edit
+    h4 Sub headline
+    div#cmsSubheadline(contenteditable='true') {{{ getSubheadline }}}
+    h4 Body chunk
     div#cmsBody {{{ getBody }}}
     input(type='submit', value='save')

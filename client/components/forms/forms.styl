@@ -1,38 +1,18 @@
 @import 'nib'
 
-
 textarea,
 input:not([type=file]),
 button
-  -webkit-appearance: none
-  box-shadow: none !important
-  -webkit-box-shadow: none !important
-  -moz-box-shadow: none !important
   box-sizing: border-box
-  background-color: rgba(41, 126, 132, .5)
-  border: none
+  -webkit-appearance: none
+  background-color: #ebebeb
+  border: 1px solid #ccc
   border-radius: 3px
-  color: white
   display: block
   margin-bottom: 12px
   min-height: 34px
-  padding: 15px 0
+  padding: 7px
 
-  &:focus-within
-    background-color: rgba(27, 54, 56, 0.5)
-
-  &:-webkit-input-placeholder 
-      color: #fff
-    &:-moz-placeholder 
-      color: #fff
-    &:-moz-placeholder 
-      color: #fff
-    &:-ms-input-placeholder 
-      color: #fff
-  
-  &:webkit-autofill 
-    background-color: rgba(41, 126, 132, .5)
-  
   &.full
     width: 100%
 
@@ -42,9 +22,6 @@ button
 
   &:focus
     outline: 0
-    box-shadow: none !important
-    -webkit-box-shadow: none !important
-    -moz-box-shadow: none !important
 
 input[type="file"]
   margin-bottom: 16px
@@ -80,8 +57,6 @@ input[type="password"],
 input[type="email"],
 textarea
 
-  &:-webkit-autofill
-
   &:hover
     border-color: #999
 
@@ -89,9 +64,9 @@ textarea
       border-color: #ba1212
 
   &:focus
-    //background: #fff
+    background: #fff
     border-color: #318ec4
-    //box-shadow: 0 0 2px #318ec4
+    box-shadow: 0 0 2px #318ec4
 
     &.input-error
       background-color: #f8f7f7
