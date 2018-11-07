@@ -1,48 +1,311 @@
-# v1.53 2018-10-03 Wekan release
+# v1.69 2018-11-03 Wekan release
+
+- Update translations.
+
+# v1.68 2018-11-03 Wekan release
+
+- Update translations.
+
+# v1.67 2018-11-03 Wekan release
+
+This release adds the following new features to all Wekan platforms:
+
+- Add Hindi language. Thanks to saurabharch.
+
+and hides the following features at Sandstorm:
+
+- Hide Linked Card and Linked Board on Sandstorm, because they are only
+  useful when having multiple boards, and at Sandstorm
+  there is only one board per grain. Thanks to ocdtrekkie and xet7. Closes #1982 
+
+Thanks to above mentioned GitHub users for their contributions.
+
+# v1.66 2018-10-31 Wekan release
 
 This release fixes the following bugs:
 
-- [Fix Card URL](https://github.com/wekan/wekan/pull/1932);
-- [OpenShift: Drop default namespace value and duplicate WEKAN_SERVICE_NAME parameter](https://github.com/wekan/wekan/pull/1930);
-- [Add whole packages/ directory to .gitignore](https://github.com/wekan/wekan/commit/f437d8370e03439d7ba5649496ec188c5d7b7e0c);
-- [Add info about root-url to GitHub issue template](https://github.com/wekan/wekan/commit/001c8f2b0138fb26a8c84acab62a604d0c6e5dda).
+- docker-compose.yml and docker-compose-build.yml, thanks to xet7:
+  - Remove single quotes, because settings are quoted automatically.
+  - Comment out most settings that have default values.
+- Fix typos in CHANGELOG.md, thanks to Hillside502 and loginKing.
+- [Fix typo about ldaps](https://github.com/wekan/wekan/pull/1980).
+  Documentation said to set LDAP_ENCRYPTION to true if we want to use
+  ldaps, but the code in wekan-ldap does not check if it is set to true,
+  but if the value equals to 'ssl' instead. Thanks to imkwx.
 
-Thanks to GitHub users lberk, InfoSec812 and xet7 for their contributions.
+Thanks to above mentioned GitHub users for their contributions.
 
-# v1.52 2018-10-01 Wekan release
+# v1.65 2018-10-25 Wekan release
 
-This release removes the following new features:
+This release adds the [following new features](https://github.com/wekan/wekan/pull/1967), with Apache I-CLA:
 
-- [Removed CAS from Wekan stable](https://github.com/wekan/wekan/commit/5923585584f9cb8121476bf5e5d0abf7891e86f6),
-  because [it does not work correctly](https://github.com/wekan/wekan/issues/1925).
-  CAS developent continues at edge.
+- UI: list headers: show the card count smaller in grey color below list name
+- UI: lists: only output the number of cards for each swimlane
 
-Thanks to GitHub user xet7 for contributions.
+Thanks to GitHub user bentiss for contributions.
 
-# v1.51 2018-09-28 Wekan release
+# v1.64.2 2018-10-25 Wekan Edge release
+
+This release fixes the following bugs:
+
+- Additional fix to [Impossible to connect to LDAP if UserDN contain space(s)](https://github.com/wekan/wekan/issues/1970).
+
+Thanks to GitHub users Akuket and xet7 for their contributions.
+
+# v1.64.1 2018-10-25 Wekan Edge release
+
+This release fixes the following bugs:
+
+- [Impossible to connect to LDAP if UserDN contain space(s)](https://github.com/wekan/wekan/issues/1970).
+
+Thanks to GitHub users Akuket and xet7 for their contributions.
+
+# v1.64 2018-10-24 Wekan release
+
+- Update translations.
+
+# v1.63 2018-10-24 Wekan release
 
 This release adds the following new features:
 
-- [Add CAS with attributes](https://github.com/wekan/wekan/commit/c6cea2fb4e9e17403fe0ce2ba5bf2d20dcf81a8f);
-- [Move Add Board button to top left, so there is no need to scroll to bottom when there is a lot of boards](https://github.com/wekan/wekan/commit/a10b6fb173d529220861668cfb1c341ec45e2a53).
+REST API: [Allow to remove the full list of labels/members through the API](https://github.com/wekan/wekan/pull/1968), with Apache I-CLA:
 
-Thanks to GitHub users ppoulard and xet7 for their contributions.
+- [Models: Cards: an empty string in members or label deletes the list](https://github.com/wekan/wekan/commit/e5949504b7ed42ad59742d2a0aa001fe6c762873).
+  There is currently no way to remove all members or all labels attached
+  to a card. If an empty string is provided, we can consider as a hint to
+  remove the list from the card.
+- [Models: Cards: allow singletons to be assigned to members and labelIds](https://github.com/wekan/wekan/commit/2ce1ba37a1d0a09f8b3d2a1db4c8a11d1f98caa0).
+  If we need to set only one member or one label, the data provided will
+  not give us an array, but the only element as a string.
+  We need to detect that and convert the parameter into an array.
 
-# v1.50 2018-09-22 Wekan release
+Thanks to GitHub user bentiss for contributions.
 
-This release adds the following new features:
+# v1.62 2018-20-24 Wekan release
 
-- [Change from Node v8.12.0 prerelease to use official Node v8.12.0](https://github.com/wekan/wekan/commit/bfabd6346033c3d3887a4693de8f13bc1705b582).
+- Fix missing dropdown arrow on Chrome. Thanks to xet7. Closes #1964
+
+# v1.61 2018-20-24 Wekan release
+
+- Fix lint error. Thanks to xet7.
+
+# v1.60 2018-10-24 Wekan release
+
+- Update translations.
+
+# v1.59 2018-10-24 Wekan release
+
+This release adds the beginning of following new features:
+
+- Custom Product Name in Admin Panel / Layout. In Progress, setting does not affect change UI yet. Thanks to xet7.
 
 and fixes the following bugs:
 
-- [Fix Dockerfile Meteor install by changing tar to bsdtar](https://github.com/wekan/wekan/commit/352e9033b6efb212e65e34bb9c407bb1d7dce824);
-- Add [npm-debug.log](https://github.com/wekan/wekan/commit/f7731f4f5ec27e63e74a3265d105427ef3c0985a) and
-  [.DS_Store](https://github.com/wekan/wekan/commit/d652eb5cee3fd648a6023e38db444ad460ddef7e) to .gitignore;
-- [Add more debug log requirements to GitHub issue template](https://github.com/wekan/wekan/commit/94cd2ce69098f02e4ac4bebb1a2b5eaf919f1020);
-- [Add default Wekan Snap MongoDB bind IP 127.0.0.1](https://github.com/wekan/wekan/commit/12656ee9a13d2464cdc183590c76d3e09486c607).
+- Fix LDAP User Search Scope. Thanks to Vnimos and Akuket. Related #119
+- Fix Save Admin Panel SMTP password. Thanks to saurabharch and xet7. Closes #1856
 
-Thanks to GitHub users maurice-schleussinger and xet7 for their contributions.
+Thanks to above mentioned GitHub users for contributions.
+
+# v1.58 2018-10-23 Wekan release
+
+This release adds the [following new features and fixes](https://github.com/wekan/wekan/pull/1962), with Apache I-CLA:
+
+- Also export the cards created with an older wekan instance (without linked cards) (related to #1873);
+- Fix the GET customFields API that was failing;
+- Allow to directly overwrite the members of cards and boards with a PUT call (this avoids to do multiple calls to add and remove users);
+- Allow to change the swimlane of a card from the API.
+
+Thanks to GitHub user bentiss for contributions.
+
+# v1.57 2018-10-23 Wekan release
+
+This release adds the following new features:
+
+- Merge edge into stable. This brings LDAP, Rules, Role "No Comments", etc.
+- Go back to Meteor 1.6.x and MongoDB 3.2.21 that works in Snap etc.
+
+Thanks to GitHub user xet7 for contributions.
+
+# v1.55.1 2018-10-16 Wekan Edge release
+
+This release adds the following new features:
+
+- [Automatically close the sidebar](https://github.com/wekan/wekan/pull/1954).
+
+and fixes the following bugs:
+
+- [LDAP: Include missing LDAP PR so that LDAP works](https://github.com/wekan/wekan-ldap/pull/6);
+- [Improve notifications](https://github.com/wekan/wekan/pull/1948);
+- [Fix deleting Custom Fields, removing broken references](https://github.com/wekan/wekan/issues/1872);
+- [Fix vertical text for swimlanes in IE11](https://github.com/wekan/wekan/issues/1798);
+- [Update broke the ability to mute notifications](https://github.com/wekan/wekan/pull/1954).
+
+Thanks to GitHub users Akuket, Clement87 and tomodwyer for their contributions.
+
+# v1.53.9 2018-10-11 Wekan Edge release
+
+This release adds the following new features:
+
+- docker-compose.yml in this Edge branch now works with Wekan Edge + Meteor 1.8.1-beta.0 + MongoDB 4.0.3;
+- [Snap is still broken](https://forum.snapcraft.io/t/how-to-connect-to-localhost-mongodb-in-snap-apparmor-prevents/7793/2). Please use latest Snap release on Edge branch, until this is fixed.
+
+Thanks to GitHub user xet7 for contributions.
+
+# v1.53.8 2018-10-10 Wekan Edge release
+
+This release tries to fix the following bugs:
+
+- Try to fix Docker.
+
+Thanks to GitHub user xet7 for contributions.
+
+# v1.53.7 2018-10-10 Wekan Edge release
+
+This release adds the following new features:
+
+- Try MongoDB 4.0.3
+
+Thanks to GitHub user xet7 for contributions.
+
+# v1.53.6 2018-10-10 Wekan Edge release
+
+This release adds the following new features:
+
+- [Add LDAP to Snap Help](https://github.com/wekan/wekan/commit/809c8f64f69721d51b7d963248a77585867fac53).
+
+and tries to fix the following bugs:
+
+- Try to fix snap.
+
+Thanks to GitHub users Akuket and xet7 for their contributions.
+    
+# v1.53.5 2018-10-10 Wekan Edge relase
+
+This release tries to fix the following bugs:
+
+- Try to fix snap.
+
+Thanks to GitHub user xet7 for contributions.
+
+# v1.53.4 2018-10-10 Wekan Edge release
+
+This release adds the following new features:
+
+- [Upgrade Hoek](https://github.com/wekan/wekan/commit/0b971b6ddb1ffc4adad6b6b09ae7f42dd376fe2c).
+
+Thanks to GitHub user xet7 for contributions.
+
+# v1.53.3 2018-10-10 Wekan Edge release
+
+This release adds the following new features:
+
+- [Upgrade](https://github.com/wekan/wekan/issues/1522) to [Meteor](https://blog.meteor.com/meteor-1-8-erases-the-debts-of-1-7-77af4c931fe3) [1.8.1-beta.0](https://github.com/meteor/meteor/issues/10216).
+  with [these](https://github.com/wekan/wekan/commit/079e45eb52a0f62ddb6051bf2ea80fac8860d3d5)
+  [commits](https://github.com/wekan/wekan/commit/dd47d46f4341a8c4ced05749633f783e88623e1b). So now it's possible to use MongoDB 2.6 - 4.0.
+  
+Thanks to GitHub user xet7 for contributions.
+
+# v1.53.2 2018-10-10 Wekan Edge release
+
+This release adds the following new features:
+
+- [Add LDAP package to Docker and Snap](https://github.com/wekan/wekan/commit/f599391419bc7422a6ead52cdefc7d380e787897).
+
+Thanks to GitHub user xet7 for contributions.
+
+# v1.53.1 2018-10-10 Wekan Edge release
+
+This release adds the following new features:
+
+- [LDAP](https://github.com/wekan/wekan/commit/288800eafc91d07f859c4f59588e0b646137ccb9).
+  Please test and [add info about bugs](https://github.com/wekan/wekan/issues/119);
+- [Add LDAP support and authentications dropdown menu on login page](https://github.com/wekan/wekan/pull/1943);
+- [REST API: Get cards by swimlane id](https://github.com/wekan/wekan/pull/1944). Please [add docs](https://github.com/wekan/wekan/wiki/REST-API-Swimlanes).
+
+and fixes the following bugs:
+
+- [OpenShift: Drop default namespace value and duplicate WEKAN_SERVICE_NAME parameter.commit](https://github.com/wekan/wekan/commit/fcc3560df4dbcc418c63470776376238af4f6ddc);
+- [Fix Card URL](https://github.com/wekan/wekan/pull/1932);
+- [Add info about root-url to GitHub issue template](https://github.com/wekan/wekan/commit/4c0eb7dcc19ca9ae8c5d2d0276e0d024269de236);
+- [Feature rules: fixes and enhancements](https://github.com/wekan/wekan/pull/1936).
+
+Thanks to GitHub users Akuket, Angtrim, dcmcand, lberk, maximest-pierre, InfoSec812, schulz and xet7 for their contributions.
+    
+# v1.52.1 2018-10-02 Wekan Edge release
+
+This release adds the following new features:
+
+- REST API: [Add member with role to board. Remove member from board](https://github.com/wekan/wekan/commit/33caf1809a459b136b671f7061f08eb5e8d5e920).
+  [Docs](https://github.com/wekan/wekan/wiki/REST-API-Role). Related to [role issue](https://github.com/wekan/wekan/issues/1861).
+
+and reverts previous change:
+
+- OAuth2: [Revert Oidc preferred_username back to username](https://github.com/wekan/wekan/commit/33caf1809a459b136b671f7061f08eb5e8d5e920).
+  This [does not fix or break anything](https://github.com/wekan/wekan/issues/1874#issuecomment-425179291),
+  Oidc already works with [doorkeeper](https://github.com/doorkeeper-gem/doorkeeper-provider-app).
+
+Thanks to GitHub user xet7 for contributions.
+    
+# v1.51.2 2018-09-30 Wekan Edge release
+
+This release adds the following new features:
+
+- [REST API: Change role of board member](https://github.com/wekan/wekan/commit/51ac6c839ecf2226b2a81b0d4f985d3b942f0938).
+  Docs: https://github.com/wekan/wekan/wiki/REST-API-Role
+
+Thanks to GitHub users entrptaher and xet7 for their contributions.
+
+# v1.51.1 2018-09-28 Wekan Edge release
+
+This release adds the following new features:
+
+- [Add CAS with attributes](https://github.com/wekan/wekan/commit/bd6e4a351b984b032e17c57793a70923eb17d8f5);
+- [Move Add Board button to top left, so there is no need to scroll to bottom when there is a lot of boards](https://github.com/wekan/wekan/commit/fb46a88a0f01f7f74ae6b941dd6f2060e020f09d).
+
+Thanks to GitHub users ppoulard and xet7 for their contributions.
+
+# v1.50.3 2018-09-23 Wekan Edge release
+
+This release tries to fix the following bugs:
+
+- [Remove "Fix Cannot setup mail server via snap variables"](https://github.com/wekan/wekan/commit/6d88baebc7e297ffdbbd5bb6971190b18f79d21f)
+  to see does Wekan Snap start correctly after removing it.
+
+Thanks to GitHub user xet7 for contributions.
+
+# v1.50.2 2018-09-23 Wekan Edge release
+
+This release tries to fix the following bugs:
+
+- Build Wekan and release again, to see does it work.
+
+Thanks to GitHub user xet7 for contributions.
+
+# v1.50.1 2018-09-22 Wekan Edge release
+
+This release adds the following new features:
+
+- [Change from Node v8.12.0 prerelease to use official Node v8.12.0](https://github.com/wekan/wekan/commit/7ec7a5f27c381e90f3da6bddc3773ed87b1c1a1f).
+
+and fixes the following bugs:
+
+- [Fix Dockerfile Meteor install by changing tar to bsdtar](https://github.com/wekan/wekan/commit/1bad81ca86ca87c02148764cc03a3070882a8a33);
+- Add [npm-debug.log and .DS_Store](https://github.com/wekan/wekan/commit/44f4a1c3bf8033b6b658703a0ccaed5fdb183ab4) to .gitignore;
+- [Add more debug log requirements to GitHub issue template](https://github.com/wekan/wekan/commit/1c4ce56b0f18e00e01b54c7059cbbf8d3e196154);
+- [Add default Wekan Snap MongoDB bind IP 127.0.0.1](https://github.com/wekan/wekan/commit/6ac726e198933ee41c129d22a7118fcfbf4ca9a2);
+- [Fix Feature Rules](https://github.com/wekan/wekan/pull/1909);
+- [Fix Cannot setup mail server via snap variables](https://github.com/wekan/wekan/issues/1906);
+- [Try to fix OAuth2: Change oidc username to preferred_username](https://github.com/wekan/wekan/commit/734e4e5f3ff2c3dabf94c0fbfca561db066c4565).
+
+Thanks to GitHub users Angtrim, maurice-schleussinger, suprovsky and xet7 for their contributions.
+
+# v1.49.1 2018-09-17 Wekan Edge release
+
+This release adds the following new features:
+
+- Change from Node v8.12.0 prerelease to use official Node v8.12.0.
+    
+Thanks to GitHub user xet7 for contributions.
 
 # v1.49 2018-09-17 Wekan release
 

@@ -276,8 +276,16 @@ Boards.helpers({
     return Users.find({ _id: { $in: _.pluck(this.members, 'userId') } });
   },
 
+  getMember(id) {
+    return _.findWhere(this.members, { userId: id });
+  },
+
   getLabel(name, color) {
     return _.findWhere(this.labels, { name, color });
+  },
+
+  getLabelById(labelId){
+    return _.findWhere(this.labels, { _id: labelId });
   },
 
   labelIndex(labelId) {
@@ -537,11 +545,10 @@ Boards.mutations({
     };
   },
 
-  setMemberPermission(memberId, isAdmin, isNoComments, isCommentOnly) {
+  setMemberPermission(memberId, isAdmin, isNoComments, isCommentOnly, currentUserId = Meteor.userId()) {
     const memberIndex = this.memberIndex(memberId);
-
     // do not allow change permission of self
-    if (memberId === Meteor.userId()) {
+    if (memberId === currentUserId) {
       isAdmin = this.members[memberIndex].isAdmin;
     }
 
@@ -820,9 +827,9 @@ if (Meteor.isServer) {
     }
   });
 
-  JsonRoutes.add('GET', '/api/boards/:id', function (req, res) {
+  JsonRoutes.add('GET', '/api/boards/:boardId', function (req, res) {
     try {
-      const id = req.params.id;
+      const id = req.params.boardId;
       Authentication.checkBoardAccess(req.userId, id);
 
       JsonRoutes.sendResult(res, {
@@ -833,6 +840,34 @@ if (Meteor.isServer) {
     catch (error) {
       JsonRoutes.sendResult(res, {
         code: 200,
+        data: error,
+      });
+    }
+  });
+
+  JsonRoutes.add('PUT', '/api/boards/:boardId/members', function (req, res) {
+    Authentication.checkUserId(req.userId);
+    try {
+      const boardId = req.params.boardId;
+      const board = Boards.findOne({ _id: boardId });
+      const userId = req.body.userId;
+      const user = Users.findOne({ _id: userId });
+
+      if (!board.getMember(userId)) {
+        user.addInvite(boardId);
+        board.addMember(userId);
+        JsonRoutes.sendResult(res, {
+          code: 200,
+          data: id,
+        });
+      } else {
+        JsonRoutes.sendResult(res, {
+          code: 200,
+        });
+      }
+    }
+    catch (error) {
+      JsonRoutes.sendResult(res, {
         data: error,
       });
     }
@@ -875,10 +910,10 @@ if (Meteor.isServer) {
     }
   });
 
-  JsonRoutes.add('DELETE', '/api/boards/:id', function (req, res) {
+  JsonRoutes.add('DELETE', '/api/boards/:boardId', function (req, res) {
     try {
       Authentication.checkUserId(req.userId);
-      const id = req.params.id;
+      const id = req.params.boardId;
       Boards.remove({ _id: id });
       JsonRoutes.sendResult(res, {
         code: 200,
@@ -895,9 +930,9 @@ if (Meteor.isServer) {
     }
   });
 
-  JsonRoutes.add('PUT', '/api/boards/:id/labels', function (req, res) {
+  JsonRoutes.add('PUT', '/api/boards/:boardId/labels', function (req, res) {
     Authentication.checkUserId(req.userId);
-    const id = req.params.id;
+    const id = req.params.boardId;
     try {
       if (req.body.hasOwnProperty('label')) {
         const board = Boards.findOne({ _id: id });
@@ -919,6 +954,31 @@ if (Meteor.isServer) {
     }
     catch (error) {
       JsonRoutes.sendResult(res, {
+        data: error,
+      });
+    }
+  });
+
+  JsonRoutes.add('POST', '/api/boards/:boardId/members/:memberId', function (req, res) {
+    try {
+      const boardId = req.params.boardId;
+      const memberId = req.params.memberId;
+      const {isAdmin, isNoComments, isCommentOnly} = req.body;
+      Authentication.checkBoardAccess(req.userId, boardId);
+      const board = Boards.findOne({ _id: boardId });
+      function isTrue(data){
+        return data.toLowerCase() === 'true';
+      }
+      board.setMemberPermission(memberId, isTrue(isAdmin), isTrue(isNoComments), isTrue(isCommentOnly), req.userId);
+
+      JsonRoutes.sendResult(res, {
+        code: 200,
+        data: query,
+      });
+    }
+    catch (error) {
+      JsonRoutes.sendResult(res, {
+        code: 200,
         data: error,
       });
     }

@@ -28,6 +28,10 @@ Settings.attachSchema(new SimpleSchema({
     type: String,
     optional: true,
   },
+  productName: {
+    type: String,
+    optional: true,
+  },
   createdAt: {
     type: Date,
     denyUpdate: true,
@@ -116,6 +120,7 @@ if (Meteor.isServer) {
         url: FlowRouter.url('sign-up'),
       };
       const lang = author.getLanguage();
+
       Email.send({
         to: icode.email,
         from: Accounts.emailTemplates.from,
@@ -126,6 +131,18 @@ if (Meteor.isServer) {
       InvitationCodes.remove(_id);
       throw new Meteor.Error('email-fail', e.message);
     }
+  }
+
+  function isLdapEnabled() {
+    return process.env.LDAP_ENABLE === 'true';
+  }
+
+  function isOauth2Enabled() {
+    return process.env.OAUTH2_ENABLED === 'true';
+  }
+
+  function isCasEnabled() {
+    return process.env.CAS_ENABLED === 'true';
   }
 
   Meteor.methods({
@@ -195,6 +212,27 @@ if (Meteor.isServer) {
         siteId: getEnvVar('MATOMO_SITE_ID'),
         doNotTrack: process.env.MATOMO_DO_NOT_TRACK || false,
         withUserName: process.env.MATOMO_WITH_USERNAME || false,
+      };
+    },
+
+    _isLdapEnabled() {
+      return isLdapEnabled();
+    },
+
+    _isOauth2Enabled() {
+      return isOauth2Enabled();
+    },
+
+    _isCasEnabled() {
+      return isCasEnabled();
+    },
+
+    // Gets all connection methods to use it in the Template
+    getAuthenticationsEnabled() {
+      return {
+        ldap: isLdapEnabled(),
+        oauth2: isOauth2Enabled(),
+        cas: isCasEnabled(),
       };
     },
   });

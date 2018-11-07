@@ -71,6 +71,12 @@ if (Meteor.isServer) {
     Activities.remove({
       customFieldId: doc._id,
     });
+
+    Cards.update(
+      {'boardId': doc.boardId, 'customFields._id': doc._id},
+      {$pull: {'customFields': {'_id': doc._id}}},
+      {multi: true}
+    );
   });
 }
 
@@ -81,7 +87,13 @@ if (Meteor.isServer) {
     const paramBoardId = req.params.boardId;
     JsonRoutes.sendResult(res, {
       code: 200,
-      data: CustomFields.find({ boardId: paramBoardId }),
+      data: CustomFields.find({ boardId: paramBoardId }).map(function (cf) {
+        return {
+          _id: cf._id,
+          name: cf.name,
+          type: cf.type,
+        };
+      }),
     });
   });
 

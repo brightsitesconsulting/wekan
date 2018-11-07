@@ -1,5 +1,6 @@
 3stack:presence@1.1.2
 accounts-base@1.4.0
+accounts-oauth@1.1.15
 accounts-password@1.5.0
 aldeed:collection2@2.10.0
 aldeed:collection2-core@1.2.0
@@ -119,6 +120,8 @@ mquandalle:perfect-scrollbar@0.6.5_2
 msavin:usercache@1.0.0
 npm-bcrypt@0.9.3
 npm-mongo@2.2.33
+oauth@1.2.1
+oauth2@1.2.0
 observe-sequence@1.0.16
 ongoworks:speakingurl@1.1.0
 ordered-dict@1.0.9
@@ -140,6 +143,8 @@ reload@1.1.11
 retry@1.0.9
 routepolicy@1.0.12
 rzymek:fullcalendar@3.8.0
+salleman:accounts-oidc@1.0.9
+salleman:oidc@1.0.9
 service-configuration@1.0.11
 session@1.1.7
 sha@1.0.9
@@ -174,4 +179,7 @@ useraccounts:unstyled@1.14.2
 verron:autosize@3.0.8
 webapp@1.4.0
 webapp-hashing@1.0.9
+wekan:accounts-cas@0.1.0
+wekan:wekan-ldap@0.0.2
+yasaricli:slugify@0.0.7
 zimme:active-route@2.3.2

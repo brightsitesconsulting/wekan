@@ -6,7 +6,23 @@ const i18nTagToT9n = (i18nTag) => {
   return i18nTag;
 };
 
+const validator = {
+  set(obj, prop, value) {
+    if (prop === 'state' && value !== 'signIn') {
+      $('.at-form-authentication').hide();
+    } else if (prop === 'state' && value === 'signIn') {
+      $('.at-form-authentication').show();
+    }
+    // The default behavior to store the value
+    obj[prop] = value;
+    // Indicate success
+    return true;
+  },
+};
+
 Template.userFormsLayout.onRendered(() => {
+  AccountsTemplates.state.form.keys = new Proxy(AccountsTemplates.state.form.keys, validator);
+
   const i18nTag = navigator.language;
   if (i18nTag) {
     T9n.setLanguage(i18nTagToT9n(i18nTag));
@@ -39,6 +55,17 @@ Template.userFormsLayout.helpers({
     const curLang = T9n.getLanguage() || 'en';
     return t9nTag === curLang;
   },
+/*
+  isCas() {
+    return Meteor.settings.public &&
+      Meteor.settings.public.cas &&
+      Meteor.settings.public.cas.loginUrl;
+  },
+
+  casSignInLabel() {
+    return TAPi18n.__('casSignIn', {}, T9n.getLanguage() || 'en');
+  },
+*/
 });
 
 Template.userFormsLayout.events({
@@ -46,6 +73,51 @@ Template.userFormsLayout.events({
     const i18nTag = $(evt.currentTarget).val();
     T9n.setLanguage(i18nTagToT9n(i18nTag));
     evt.preventDefault();
+  },
+  'click button#cas'() {
+    Meteor.loginWithCas(function() {
+      if (FlowRouter.getRouteName() === 'atSignIn') {
+        FlowRouter.go('/');
+      }
+    });
+  },
+  'click #at-btn'(event) {
+    /* All authentication method can be managed/called here.
+       !! DON'T FORGET to correctly fill the fields of the user during its creation if necessary authenticationMethod : String !!
+    */
+    const authenticationMethodSelected = $('.select-authentication').val();
+    // Local account
+    if (authenticationMethodSelected === 'password') {
+      return;
+    }
+
+    // Stop submit #at-pwd-form
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    const email = $('#at-field-username_and_email').val();
+    const password = $('#at-field-password').val();
+
+    // Ldap account
+    if (authenticationMethodSelected === 'ldap') {
+      // Check if the user can use the ldap connection
+      Meteor.subscribe('user-authenticationMethod', email, {
+        onReady() {
+          const user = Users.findOne();
+          if (user === undefined || user.authenticationMethod === 'ldap') {
+            // Use the ldap connection package
+            Meteor.loginWithLDAP(email, password, function(error) {
+              if (!error) {
+                // Connection
+                return FlowRouter.go('/');
+              }
+              return error;
+            });
+          }
+          return this.stop();
+        },
+      });
+    }
   },
 });
 

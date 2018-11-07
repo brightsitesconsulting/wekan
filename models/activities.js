@@ -56,6 +56,14 @@ Activities.before.insert((userId, doc) => {
   doc.createdAt = new Date();
 });
 
+
+Activities.after.insert((userId, doc) => {
+  const activity = Activities._transform(doc);
+  RulesHelper.executeRules(activity);
+
+});
+
+
 if (Meteor.isServer) {
   // For efficiency create indexes on the date of creation, and on the date of
   // creation in conjunction with the card or board id, as corresponding views
@@ -144,21 +152,10 @@ if (Meteor.isServer) {
     if (board) {
       const watchingUsers = _.pluck(_.where(board.watchers, {level: 'watching'}), 'userId');
       const trackingUsers = _.pluck(_.where(board.watchers, {level: 'tracking'}), 'userId');
-      const mutedUsers = _.pluck(_.where(board.watchers, {level: 'muted'}), 'userId');
-      switch(board.getWatchDefault()) {
-      case 'muted':
-        participants = _.intersection(participants, trackingUsers);
-        watchers = _.intersection(watchers, trackingUsers);
-        break;
-      case 'tracking':
-        participants = _.difference(participants, mutedUsers);
-        watchers = _.difference(watchers, mutedUsers);
-        break;
-      }
-      watchers = _.union(watchers, watchingUsers || []);
+      watchers = _.union(watchers, watchingUsers, _.intersection(participants, trackingUsers));
     }
 
-    Notifications.getUsers(participants, watchers).forEach((user) => {
+    Notifications.getUsers(watchers).forEach((user) => {
       Notifications.notify(user, title, description, params);
     });
 

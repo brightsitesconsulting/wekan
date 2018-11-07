@@ -110,7 +110,7 @@ BlazeComponent.extendComponent({
   },
 
   onRendered() {
-    if (!Utils.isMiniScreen()){
+    if (!Utils.isMiniScreen()) {
       Meteor.setTimeout(() => {
         this.scrollParentContainer();
       }, 500);
