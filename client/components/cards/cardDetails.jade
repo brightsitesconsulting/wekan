@@ -100,8 +100,6 @@ template(name="cardDetails")
 
     //- XXX We should use "editable" to avoid repetiting ourselves
     if canModifyCard
-      div
-        button#openCms Edit article
       h3.card-details-item-title {{_ 'description'}}
       +inlinedCardDescription(classNames="card-description js-card-description")
         +editor(autofocus=true)

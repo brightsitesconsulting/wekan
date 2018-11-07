@@ -117,6 +117,8 @@ BlazeComponent.extendComponent({
     }
     const $checklistsDom = this.$('.card-checklist-items');
 
+    this.enableOverlay();
+
     $checklistsDom.sortable({
       tolerance: 'pointer',
       helper: 'clone',
@@ -206,6 +208,13 @@ BlazeComponent.extendComponent({
     });
   },
 
+  enableOverlay() {
+    const parentComponent =  this.parentComponent().parentComponent();
+    if (parentComponent === null) return;
+    parentComponent.showOverlay.set(true);
+    parentComponent.mouseHasEnterCardDetails = true;
+  },
+
   onDestroyed() {
     const parentComponent =  this.parentComponent().parentComponent();
     //on mobile view parent is Board, not board body.
@@ -262,13 +271,6 @@ BlazeComponent.extendComponent({
       'click .js-start-date': Popup.open('editCardStartDate'),
       'click .js-due-date': Popup.open('editCardDueDate'),
       'click .js-end-date': Popup.open('editCardEndDate'),
-      'mouseenter .js-card-details' () {
-        const parentComponent =  this.parentComponent().parentComponent();
-        //on mobile view parent is Board, not BoardBody.
-        if (parentComponent === null) return;
-        parentComponent.showOverlay.set(true);
-        parentComponent.mouseHasEnterCardDetails = true;
-      },
       'click #toggleButton'() {
         Meteor.call('toggleSystemMessages');
       },

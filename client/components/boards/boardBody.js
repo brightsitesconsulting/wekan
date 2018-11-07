@@ -118,13 +118,6 @@ BlazeComponent.extendComponent({
   },
   events() {
     return [{
-      // XXX The board-overlay div should probably be moved to the parent
-      // component.
-      'mouseenter .board-overlay'() {
-        if (this.mouseHasEnterCardDetails) {
-          this.showOverlay.set(false);
-        }
-      },
       'mouseup'() {
         if (this._isDragging) {
           this._isDragging = false;

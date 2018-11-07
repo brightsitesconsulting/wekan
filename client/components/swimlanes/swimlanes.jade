@@ -18,7 +18,7 @@ template(name="swimlane")
         +addListAndSwimlaneForm
 
 template(name="listsGroup")
-  .swimlane.list-group.js-lists.xxx
+  .swimlane.list-group.js-lists
     if isMiniScreen
       if currentList
         +list(currentList)
@@ -30,10 +30,10 @@ template(name="listsGroup")
     else
       each currentBoard.lists
         +list(this)
-        if currentCardIsInThisList _id null
-          +cardDetails(currentCard)
       if currentUser.isBoardMember
         +addListForm
+  if currentCard
+    +cardDetails(currentCard)
 
 template(name="addListAndSwimlaneForm")
   .list.list-composer.js-list-composer
