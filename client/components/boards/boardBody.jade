@@ -19,7 +19,7 @@ template(name="boardBody")
       class="{{#if MultiSelection.isActive}}is-multiselection-active{{/if}}"
       class="{{#if draggingActive.get}}is-dragging-active{{/if}}")
       if showOverlay.get
-        .board-overlay
+        .board-overlay.js-board-overlay
       if isViewSwimlanes
         each currentBoard.swimlanes
           +swimlane(this)

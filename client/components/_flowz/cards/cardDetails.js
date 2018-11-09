@@ -206,6 +206,9 @@ BlazeComponent.extendComponent({
         $subtasksDom.sortable('option', 'disabled', !userIsMember());
       }
     });
+    $(document).ready(function(){
+      $('.tabs').tabs();
+    });
   },
 
   enableOverlay() {
